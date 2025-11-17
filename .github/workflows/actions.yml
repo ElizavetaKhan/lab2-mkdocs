@@ -1,0 +1,52 @@
+name: Custom theme
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install MkDocs and Theme
+        run: |
+          pip install mkdocs mkdocs-material
+
+      - name: Build site
+        run: mkdocs build --strict
+
+      - name: Ensure assets folder
+        run: mkdir -p site/assets
+
+      - name: Build and minify CSS (PostCSS)
+        run: npm run build:css
+
+      - name: Validate HTML
+        run: npm run validate:html
+
+      - name: (Optional) Typograf
+        run: npm run typograf || echo "Typograf step failed (optional)"
+
+      - name: Minify HTML
+        run: npm run minify:html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
