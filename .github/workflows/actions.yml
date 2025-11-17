@@ -8,6 +8,10 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -30,17 +34,19 @@ jobs:
       - name: Ensure assets folder
         run: mkdir -p site/assets
 
-      - name: Build and minify CSS (PostCSS)
-        run: npm run build:css
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-      - name: Validate HTML
-        run: npm run validate:html
+      - name: Install npm dependencies
+        run: npm install
 
-      - name: (Optional) Typograf
-        run: npm run typograf || echo "Typograf step failed (optional)"
+      - name: Build and minify everything
+        run: npm run build
 
-      - name: Minify HTML
-        run: npm run minify:html
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
