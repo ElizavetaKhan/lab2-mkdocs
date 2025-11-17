@@ -1,0 +1,57 @@
+:root {
+  --bg: #ffffff;
+  --text: #222;
+  --accent: #0b66ff;
+  --container-width: 1000px;
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  margin: 0; 
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.container { 
+  max-width: var(--container-width);
+  margin: 0 auto; 
+  padding: 1px; 
+}
+
+.site-header { 
+  background: #f7f9ff; 
+  border-bottom: 1px solid #e6e9f0;
+}
+
+.site-title { 
+  margin: 0; 
+  font-size: 30px; 
+  display: inline-block; 
+}
+
+.site-title a { 
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-nav {
+  float: right; 
+  margin-top: 0.1px; 
+}
+
+.site-nav a {
+  margin-left: 1px;
+  color: #333;
+  text-decoration: none;
+}
+
+.site-content { 
+  padding: 2px 0; 
+}
+
+.site-footer { 
+  border-top: 1px solid #eee;
+  padding: 1px 0; 
+  color: #666; 
+}
